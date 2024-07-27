@@ -7,9 +7,10 @@ class PhoneBook
 {
 	private:
 			Contact _contacts[8];
-			// int _index = 0;
+			int _index;
 	public:
 			void	set_contact(Contact _contacts);
+
 
 };
 

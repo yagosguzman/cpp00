@@ -6,7 +6,7 @@
 /*   By: ysanchez <ysanchez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 19:10:20 by ysanchez          #+#    #+#             */
-/*   Updated: 2024/07/25 21:08:45 by ysanchez         ###   ########.fr       */
+/*   Updated: 2024/07/27 13:57:36 by ysanchez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	PhoneBook::set_contact(Contact data){
 	data.set_nickname();
 	data.set_phone();
 	data.set_secret();
+	std::cout << data.get_firstname() << _index;
 	return;
 };
 
@@ -36,9 +37,8 @@ int main(void)
 		std::cin >> option;
 		// if (!(std::cin >> option)) Esto me da problemas
 		// 	continue; //
-		if (option.compare("ADD") == 0){
+		if (option.compare("ADD") == 0)
 			myphonebook.set_contact(data);
-		}
 		if (option.compare("SEARCH") == 0){
 			std::cout << "Search Contact\n";
 			return (0);
