@@ -9,6 +9,8 @@ class PhoneBook
 			Contact _contacts[8];
 			int _index;
 	public:
+			PhoneBook(void);
+			~PhoneBook(void);
 			void	set_contact(Contact _contacts);
 
 

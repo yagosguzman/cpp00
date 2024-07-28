@@ -12,32 +12,33 @@
 
 #include "Contact.hpp"
 #include <iostream>
+#include <string>
 
 void	Contact::set_firstname(void){
 	std::cout << "FIRST NAME: ";
-	std::cin >> this->_firstname;
+	std::getline(std::cin, this->_firstname);
 	return;
 }
 void	Contact::set_lastname(void){
 	std::cout << "LAST NAME: ";
-	std::cin >> this->_lastname;
+	std::getline(std::cin, this->_lastname);
 	return;
 }
 
 void	Contact::set_nickname(void){
 	std::cout << "NICKNAME: ";
-	std::cin >> this->_nickname;
+	std::getline(std::cin, this->_nickname);
 	return;
 }
 
 void	Contact::set_phone(void){
 	std::cout << "PHONE: ";
-	std::cin >> this->_phone;
+	std::getline(std::cin, this->_phone);
 	return;
 }
 void	Contact::set_secret(void){
 	std::cout << "SECRET: ";
-	std::cin >> this->_secret;
+	std::getline(std::cin, this->_secret);
 	return;
 }
 

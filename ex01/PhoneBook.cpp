@@ -15,16 +15,40 @@
 #include <iostream>
 
 
+PhoneBook::PhoneBook (void)
+{
+	std::cout << "Welcome to your Amazing Phonebook. You can store up to 8 contacts." << std::endl;
+	this->_index = 0;
+}
+
+PhoneBook::~PhoneBook (void)
+{
+	std::cout << "Thanks for using the AmazingPhoneBook" << std::endl;
+}
+
 void	PhoneBook::set_contact(Contact data){
-	// std::string	input;
 	data.set_firstname();
 	data.set_lastname();
 	data.set_nickname();
 	data.set_phone();
 	data.set_secret();
-	std::cout << data.get_firstname() << _index;
+	this->_contacts[this->_index] = data;
+	std::cout << "Contact saved in slot " << _index << std::endl;
+    if (this->_index == 7)
+        this->_index = -1;
+    this->_index++;
 	return;
 };
+
+void	PhoneBook::show_all(void)
+{
+	int limit;
+	this->limit = PhoneBook._index;
+	while (limit >= 0)
+	{
+		
+	}
+}
 
 int main(void)
 {
@@ -34,16 +58,16 @@ int main(void)
 
 	std::cout << "Please type ADD, SEARCH or EXIT\n";
 	while (1){
-		std::cin >> option;
-		// if (!(std::cin >> option)) Esto me da problemas
+		std::getline(std::cin, option);
+		// if (!(std::cin.eof)) Esto me da problemas
 		// 	continue; //
 		if (option.compare("ADD") == 0)
 			myphonebook.set_contact(data);
-		if (option.compare("SEARCH") == 0){
+		else if (option.compare("SEARCH") == 0){
 			std::cout << "Search Contact\n";
 			return (0);
 		}
-		if (option.compare("EXIT") == 0)
+		else if (option.compare("EXIT") == 0)
 			return (0);
 		else
 			std::cout << "Just type ADD, SEARCH or EXIT :)\n";
