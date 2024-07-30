@@ -6,10 +6,11 @@
 /*   By: ysanchez <ysanchez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:04:28 by ysanchez          #+#    #+#             */
-/*   Updated: 2024/07/25 21:07:12 by ysanchez         ###   ########.fr       */
+/*   Updated: 2024/07/30 19:22:43 by ysanchez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "PhoneBook.hpp"
 #include "Contact.hpp"
 #include <iostream>
 #include <string>

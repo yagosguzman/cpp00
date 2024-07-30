@@ -2,6 +2,9 @@
 # define PHONEBOOK_HPP
 
 #include "Contact.hpp"
+#include <iomanip>
+#include <iostream>
+
 
 class PhoneBook
 {
@@ -12,10 +15,10 @@ class PhoneBook
 			PhoneBook(void);
 			~PhoneBook(void);
 			void	set_contact(Contact _contacts);
+			void	show_all(void);
+
 
 
 };
-
-
 
 #endif
