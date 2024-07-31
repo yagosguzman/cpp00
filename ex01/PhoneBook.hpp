@@ -16,9 +16,7 @@ class PhoneBook
 			~PhoneBook(void);
 			void	set_contact(Contact _contacts);
 			void	show_all(void);
-
-
-
+			void 	get_contact(void);
 };
 
 #endif
