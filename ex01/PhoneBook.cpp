@@ -6,7 +6,7 @@
 /*   By: ysanchez <ysanchez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 19:10:20 by ysanchez          #+#    #+#             */
-/*   Updated: 2024/08/01 19:48:49 by ysanchez         ###   ########.fr       */
+/*   Updated: 2024/08/01 21:35:06 by ysanchez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,18 @@ void	PhoneBook::set_contact(Contact data){
 	return;
 };
 
+int	count_digits(int num)
+{
+	int i = 1;
+
+	while (num > 0)
+	{
+		num = num / 10;
+		i++;
+	}
+	return (i);
+}
+
 void 	PhoneBook::get_contact(void)
 {
 	int	option;
@@ -73,7 +85,7 @@ void 	PhoneBook::get_contact(void)
 			std::cerr << "Invalid input. Please enter a valid number between 0 and 7.\n";
 			continue;
 		}
-		if ((option >= 0 && option <= 7) && option < _saved) {
+		if ((option >= 0 && option <= 7) && option < _saved && count_digits(option) <= 1) {
 			std::cout << "First name: " << _contacts[option].get_firstname() << std::endl;
 			std::cout << "Last name: " << _contacts[option].get_lastname() << std::endl;
 			std::cout << "Nickname: " << _contacts[option].get_nickname() << std::endl;

@@ -1,6 +1,6 @@
 NAME = AmazingPhoneBook
 CC = c++
-FLAGS = -Wall -Werror -Wextra -std=c++98
+FLAGS = -Wall -Werror -Wextra -std=c++98 -fsanitize=address
 RM = rm -rf
 SRC = Contact.cpp PhoneBook.cpp
 HEADER = Contact.hpp PhoneBook.hpp
