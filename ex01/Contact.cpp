@@ -6,7 +6,7 @@
 /*   By: ysanchez <ysanchez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:04:28 by ysanchez          #+#    #+#             */
-/*   Updated: 2024/07/31 23:10:23 by ysanchez         ###   ########.fr       */
+/*   Updated: 2024/08/01 19:44:05 by ysanchez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "Contact.hpp"
 #include <iostream>
 #include <string>
+#include <cctype>
 
 void	Contact::set_firstname(void){
 	std::cout << "FIRST NAME: ";

@@ -6,7 +6,7 @@
 /*   By: ysanchez <ysanchez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 19:10:20 by ysanchez          #+#    #+#             */
-/*   Updated: 2024/07/31 23:11:03 by ysanchez         ###   ########.fr       */
+/*   Updated: 2024/08/01 19:48:49 by ysanchez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@
 PhoneBook::PhoneBook (void)
 {
 	std::cout << "Welcome to your Amazing Phonebook. You can store up to 8 contacts." << std::endl;
-	this->_index = -1;
+	this->_index = 0;
+	this->_saved = 0;
 }
 
 PhoneBook::~PhoneBook (void)
@@ -26,17 +27,25 @@ PhoneBook::~PhoneBook (void)
 }
 
 void	PhoneBook::set_contact(Contact data){
-	if (_index == 7)
-		this->_index = 0;
-	else
-		this->_index++;
 	data.set_firstname();
 	data.set_lastname();
 	data.set_nickname();
 	data.set_phone();
 	data.set_secret();
+	if (data.get_firstname().empty() || data.get_lastname().empty()
+		|| data.get_nickname().empty() || data.get_phone().empty()
+		|| data.get_secret().empty())
+	{
+		std::cout << "You can't leave any field in blank, returning to menu." << std::endl;
+		return;
+	}
+	if (_saved < 8)
+		_saved++; 
 	this->_contacts[this->_index] = data;
-	std::cout << "\nContact saved on slot " << _index << ".\n\n";
+	if (_index == 7)
+		this->_index = 0;
+	else
+		this->_index++;
 	std::cout << "Please type ADD, SEARCH or EXIT" << std::endl;
 	return;
 };
@@ -46,7 +55,7 @@ void 	PhoneBook::get_contact(void)
 	int	option;
 	int flag = 0;
 	
-	if (_index == -1)
+	if (_saved == 0)
 	{
 		std::cout << "\nNO CONTACTS SAVED YET!\n\nPlease type ADD, SEARCH or EXIT" << std::endl;
 		return;
@@ -64,7 +73,7 @@ void 	PhoneBook::get_contact(void)
 			std::cerr << "Invalid input. Please enter a valid number between 0 and 7.\n";
 			continue;
 		}
-		if (option >= 0 && option <= 7) {
+		if ((option >= 0 && option <= 7) && option < _saved) {
 			std::cout << "First name: " << _contacts[option].get_firstname() << std::endl;
 			std::cout << "Last name: " << _contacts[option].get_lastname() << std::endl;
 			std::cout << "Nickname: " << _contacts[option].get_nickname() << std::endl;
@@ -73,7 +82,7 @@ void 	PhoneBook::get_contact(void)
 			flag = 1;
 		}
 		else
-			std::cerr << "INDEX OUT OF RANGE\nPlease enter a number between 0 and 7" << std::endl;
+			std::cerr << "INDEX OUT OF RANGE\nPlease enter a number between 0 and " << _saved -1 << std::endl;
 
 	}
 	return;
@@ -84,7 +93,11 @@ void	PhoneBook::show_all(void)
 {
 	int limit = 0;
 
-	while (limit <= _index)
+	std::cout << std::setw(10) << std::right << "INDEX" << "|"
+			<< std::setw(10) << std::right << "FIRST" << "|"
+			<< std::setw(10) << std::right << "LAST" << "|"
+			<< std::setw(10) << std::right << "NICK" << "|" << std::endl;
+	while (limit < _saved)
 	{
 		std::string first = _contacts[limit].get_firstname();
 		std::string last = _contacts[limit].get_lastname();
@@ -93,7 +106,6 @@ void	PhoneBook::show_all(void)
 		if (first.length() > 10) first = first.substr(0, 9) + ".";
 		if (last.length() > 10) last = last.substr(0, 9) + ".";
 		if (nick.length() > 10) nick = nick.substr(0, 9) + ".";
-
 		std::cout << std::setw(10) << std::right << limit << "|" 
 				<< std::setw(10) << std::right << first << "|" 
 				<< std::setw(10) << std::right << last << "|" 

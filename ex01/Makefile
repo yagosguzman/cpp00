@@ -9,19 +9,19 @@ OBJ = ${SRC:.cpp=.o}
 all: $(NAME)
 
 %.o: %.cpp $(HEADER)
-	@$(CC) $(FLAGS) -c $< -o $@
+	$(CC) $(FLAGS) -c $< -o $@
 
 $(NAME): $(OBJ)
-	@$(CC) $(FLAGS) $(OBJ) -o $(NAME)
+	$(CC) $(FLAGS) $(OBJ) -o $(NAME)
 	@echo "Executable ready!"
 
 
 clean:
-	@$(RM) $(OBJ)
+	$(RM) $(OBJ)
 	@echo "Objects successfully removed"
 
 fclean: clean
-	@$(RM) $(NAME)
+	$(RM) $(NAME)
 	@echo "Executable successfully removed"
 
 re: fclean all
