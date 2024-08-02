@@ -6,13 +6,12 @@
 /*   By: ysanchez <ysanchez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 19:10:20 by ysanchez          #+#    #+#             */
-/*   Updated: 2024/08/01 21:35:06 by ysanchez         ###   ########.fr       */
+/*   Updated: 2024/08/02 20:31:17 by ysanchez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PhoneBook.hpp"
 #include "Contact.hpp"
-#include <limits>
 
 PhoneBook::PhoneBook (void)
 {
@@ -26,6 +25,15 @@ PhoneBook::~PhoneBook (void)
 	std::cout << "Thanks for using the AmazingPhoneBook." << std::endl;
 }
 
+int		PhoneBook::invalid_phone(std::string phone)
+{
+	for (unsigned long i = 0; i < phone.size(); ++i){
+		if (!isdigit(phone[i]))
+			return (1);
+	}
+	return (0);
+}
+
 void	PhoneBook::set_contact(Contact data){
 	data.set_firstname();
 	data.set_lastname();
@@ -36,7 +44,12 @@ void	PhoneBook::set_contact(Contact data){
 		|| data.get_nickname().empty() || data.get_phone().empty()
 		|| data.get_secret().empty())
 	{
-		std::cout << "You can't leave any field in blank, returning to menu." << std::endl;
+		std::cerr << "You can't leave any field in blank, returning to menu." << std::endl;
+		return;
+	}
+	if (invalid_phone(data.get_phone()))
+	{
+		std::cerr << "Invalid phone number, you can only use numbers" << std::endl;
 		return;
 	}
 	if (_saved < 8)
@@ -46,65 +59,17 @@ void	PhoneBook::set_contact(Contact data){
 		this->_index = 0;
 	else
 		this->_index++;
-	std::cout << "Please type ADD, SEARCH or EXIT" << std::endl;
 	return;
 };
-
-int	count_digits(int num)
-{
-	int i = 1;
-
-	while (num > 0)
-	{
-		num = num / 10;
-		i++;
-	}
-	return (i);
-}
-
-void 	PhoneBook::get_contact(void)
-{
-	int	option;
-	int flag = 0;
-	
-	if (_saved == 0)
-	{
-		std::cout << "\nNO CONTACTS SAVED YET!\n\nPlease type ADD, SEARCH or EXIT" << std::endl;
-		return;
-	}
-	std::cout << "\nPlease introduce the index number of the contact you want too see the info:\n";
-	while (flag != 1)
-	{
-		std::cin >> option;
-		if (std::cin.eof())
-			return;
-		if (std::cin.fail())
-		{
-			std::cin.clear();
-			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-			std::cerr << "Invalid input. Please enter a valid number between 0 and 7.\n";
-			continue;
-		}
-		if ((option >= 0 && option <= 7) && option < _saved && count_digits(option) <= 1) {
-			std::cout << "First name: " << _contacts[option].get_firstname() << std::endl;
-			std::cout << "Last name: " << _contacts[option].get_lastname() << std::endl;
-			std::cout << "Nickname: " << _contacts[option].get_nickname() << std::endl;
-			std::cout << "Phone: " << _contacts[option].get_phone() << std::endl;
-			std::cout << "Secret: " << _contacts[option].get_secret() << std::endl;
-			flag = 1;
-		}
-		else
-			std::cerr << "INDEX OUT OF RANGE\nPlease enter a number between 0 and " << _saved -1 << std::endl;
-
-	}
-	return;
-}
-
 
 void	PhoneBook::show_all(void)
 {
 	int limit = 0;
-
+	if (_saved == 0)
+	{
+		std::cout << "\nNO CONTACTS SAVED YET!\n\nPlease type ADD, SEARCH or EXIT:" << std::endl;
+		return;
+	}
 	std::cout << std::setw(10) << std::right << "INDEX" << "|"
 			<< std::setw(10) << std::right << "FIRST" << "|"
 			<< std::setw(10) << std::right << "LAST" << "|"
@@ -122,18 +87,60 @@ void	PhoneBook::show_all(void)
 				<< std::setw(10) << std::right << first << "|" 
 				<< std::setw(10) << std::right << last << "|" 
 				<< std::setw(10) << std::right << nick << "|" << std::endl;
-        limit++;
+		limit++;
 	}	
 	return;
 }
 
-int main(void)
+void 	PhoneBook::get_contact(void)
 {
+	std::string	option;
+	int flag = 0;
+	
+	if (_saved == 0)
+		return;
+	std::cout << "\nPlease introduce the index number of the contact you want:\n";
+	while (flag != 1)
+	{
+		std::cin >> option;
+		int index;
+		if (std::cin.eof())
+			return;
+		if (option.size() == 1 && (option[0] >= '0' && option[0] <= '7')) {
+			std::istringstream(option) >> index;
+			if (index < _saved){
+			std::cout << "First name: " << _contacts[index].get_firstname() << std::endl;
+			std::cout << "Last name: " << _contacts[index].get_lastname() << std::endl;
+			std::cout << "Nickname: " << _contacts[index].get_nickname() << std::endl;
+			std::cout << "Phone: " << _contacts[index].get_phone() << std::endl;
+			std::cout << "Secret: " << _contacts[index].get_secret() << std::endl;
+			flag = 1;
+			}
+			else
+			std::cerr << "SLOT " << index << " IS EMPTY!\nPlease enter a number between 0 and " 
+				<< _saved -1 << std::endl;
+		}
+		else
+			std::cout << "Invalid input. Please enter a number between 0 and 7.\n";
+		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	}
+	std::cout << "\nPlease type ADD, SEARCH or EXIT:\n";
+	return;
+}
+
+int main(int argc, char **argv)
+{
+	if (argc > 1 && argv[1])
+	{
+		std::cerr << "Error\nPlease execute with no arguments" << std::endl;
+		return (1);
+	}
+	
+	std::cout << "\nPlease type ADD, SEARCH or EXIT:\n";
 	std::string option;
 	PhoneBook myphonebook;
 	Contact data;
 
-	std::cout << "Please type ADD, SEARCH or EXIT\n";
 	while (1)
 	{
 		std::getline(std::cin, option);
@@ -142,16 +149,21 @@ int main(void)
 			std::cerr << "\nEOF detected, closing the program. Bye!\n" << std::endl;
 			break;
 		}
-		if (option.compare("ADD") == 0)
+		if (option.compare("ADD") == 0){
 			myphonebook.set_contact(data);
+			std::cout << "\nPlease type ADD, SEARCH or EXIT:\n";
+			continue;
+		}
 		else if (option.compare("SEARCH") == 0)
 		{
 			myphonebook.show_all();
 			myphonebook.get_contact();
+			continue;
 		}
 		else if (option.compare("EXIT") == 0)
 			return (0);
 		else
-			std::cout << "\nJust type ADD, SEARCH or EXIT :)\n";
+			std::cerr << "Write ADD, SEARCH or EXIT :)" << std::endl; 
 	}
+	return (0);
 }

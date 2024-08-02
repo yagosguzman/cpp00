@@ -4,7 +4,8 @@
 #include "Contact.hpp"
 #include <iomanip>
 #include <iostream>
-
+#include <sstream>
+#include <limits>
 
 class PhoneBook
 {
@@ -18,6 +19,7 @@ class PhoneBook
 			void	set_contact(Contact _contacts);
 			void	show_all(void);
 			void 	get_contact(void);
+			int		invalid_phone(std::string phone);
 };
 
 #endif
