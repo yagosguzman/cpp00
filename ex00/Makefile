@@ -1,24 +1,39 @@
 NAME = megaphone
+
 CC = c++
-FLAGS = -Wall -Werror -Wextra -std=c++98
-RM = rm -rf
-SRC = megaphone.cpp
-OBJ = ${SRC:.cpp=.o}
+CFLAGS = -std=c++98 -Wall -Wextra -Werror -MMD
+SRC_FILES = megaphone.cpp
+OBJ_DIR = objs/
+OBJ_FILES = $(SRC_FILES:.cpp=.o)
+OBJS = $(addprefix $(OBJ_DIR), $(OBJ_FILES))
+DEP_FILES = $(SRC_FILES:.cpp=.d)
+DEPS = $(addprefix $(OBJ_DIR), $(DEP_FILES))
+INCLUDE = -I ./
+RM = rm -f
 
 all: $(NAME)
 
-$(NAME): $(OBJ)
-	@$(CC) $(FLAGS) $(SRC) -o $(NAME)
+$(NAME): $(OBJ_DIR) $(OBJS)
+	$(CC) $(CFLAGS) $(INCLUDE) $(OBJS) -o $@
 	@echo "Executable ready!"
 
+$(OBJ_DIR):
+	@mkdir -p $(OBJ_DIR)
+
+$(OBJ_DIR)%.o: %.cpp
+	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
+
+-include $(DEPS)
+
 clean:
-	@$(RM) $(OBJ)
-	@echo "Objects successfully removed"
+	@$(RM) -r $(OBJ_DIR)
+	@echo "Objects and dependencies successfully removed"
 
 fclean: clean
 	@$(RM) $(NAME)
-	@echo "Executable successfully removed"
+	@echo "Executable and objects successfully removed"
 
 re: fclean all
 
-.PHONY: make all clean fclean re
+
+.PHONY: all clean fclean re
